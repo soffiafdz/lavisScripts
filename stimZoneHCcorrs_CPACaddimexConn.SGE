@@ -1,0 +1,50 @@
+#! /bin/bash
+## SGE batch file - xcpEngineTMS.SGE
+#$ -S /bin/bash
+## xcpEngineTMS is the jobname and can be changed
+#$ -N xcpEngineTMS
+## execute the job using the mpi_smp parallel enviroment and 8 cores per job
+## create an array of 2 jobs the number of subjects and sessions
+#$ -t 1-[]
+#$ -V
+#$ -l mem_free=12G
+#$ -pe openmp 6
+## change the following working directory to a persistent directory that is
+## available on all nodes, this is were messages printed by the app (stdout
+## and stderr) will be stored
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/sgeLogs
+
+## Modules
+
+module load fsl[]
+module load afni[]
+
+
+## Variables
+inDir=[CPAC output]
+outDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/stimZanalysis
+seedsDir=[FoxFilesCones]
+subsList=[CSV of controls RIDS] #Review how it was done first 
+stimZids=()
+
+# Make needed directories 
+mkdir -p ${outDir}/timeSeries \
+${outDir}/correlationMaps/r \
+${outDir}/correlationMaps/z 
+
+## Subject to run
+subIdx=$(awk -v index=$SGE_TASK_ID 'NR==index' $subsList)
+
+# Random sleep so that jobs dont start at _exactly_ the same time
+sleep $(( $SGE_TASK_ID % 10 ))
+
+## Body
+for cone in $(ls [cones indeces]); do
+    stimZ=$(basename $cone)
+    stimZid=[] #Should this be needed?
+    stimZids+=( $stimZid ) #What is this for exactly???
+    # Extracting Time series
+    mkdir -
+
+
+
