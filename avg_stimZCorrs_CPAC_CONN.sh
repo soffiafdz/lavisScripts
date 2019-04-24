@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#load module 
+module load fsl/5.0.11
+
 inDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/CPAC
 outDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/stimZanalysis
 

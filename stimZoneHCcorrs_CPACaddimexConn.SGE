@@ -12,19 +12,26 @@
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/sgeLogs
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
 
 ## Modules
 
 module load fsl/5.0.11
-module load afni # Load singularity? 
+module load singularity/2.2
+
+# Singularity image of AFNI
+imageAFNI=/mnt/MD1200B/egarza/sfernandezl/singImages/afni_afni-2019-04-08.img
+function sAfni() {
+    singularity exec -B /mnt:/mnt \
+    $imageAFNI $@
+}
 
 
 ## Variables
 inDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/CPAC
 outDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/stimZanalysis
 seedsDir=[FoxFilesCones]
-subsList=[CSV of controls RIDS] #Review how it was done first 
+subsList=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/sourcedata/validControls.txt
 inDirs=()
 
 for outCPAC in $(ls $inDir); do
@@ -52,16 +59,13 @@ for i in ${inDirs[@]}; do
         -o ${outDir}/${i}/timeSeries/${outFile}.1D \
         -m $cone
         # Correlation maps 
-        3dfim+ -polort 3 \
+        sAfni 3dfim+ -polort 3 \
         -input $inFile \
         -ideal_file ${outDir}/${i}/timeSeries/${outFile}.1D \
         -out Correlation \
         -bucket ${outDir}/${i}/correlationMaps/r/${outFile}_corr.nii.gz
-        3dcalc -a ${outDir}/${i}/correlationMaps/r/${outFile}_corr.nii.gz \
+        sAfni 3dcalc -a ${outDir}/${i}/correlationMaps/r/${outFile}_corr.nii.gz \
         -expr 'log((1+a)/(1-a))/2' \
         -prefix ${outDir}/correlationMaps/z/${outFile}_corrZ.nii.gz
     done
 done
-
-
-
