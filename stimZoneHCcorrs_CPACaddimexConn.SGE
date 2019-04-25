@@ -1,21 +1,25 @@
 #! /bin/bash
-## SGE batch file - xcpEngineTMS.SGE
+## SGE batch file - stimZoneHCcorrs_CPACaddimexConn.SGE
 #$ -S /bin/bash
-## xcpEngineTMS is the jobname and can be changed
-#$ -N xcpEngineTMS
-## execute the job using the mpi_smp parallel enviroment and 8 cores per job
-## create an array of 2 jobs the number of subjects and sessions
-#$ -t 1-[]
+## stimZoneHCcorrs_CPACaddimexConn is the jobname and can be changed
+#$ -N stimZoneHCcorrs_CPACaddimexConn
+## Execute the job using the mpi_smp parallel enviroment and 6 cores per job
+## Create an array of 46 jobs the number of subjects and sessions
+#$ -t 1-46
 #$ -V
 #$ -l mem_free=12G
 #$ -pe openmp 6
-## change the following working directory to a persistent directory that is
+## Change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
+#$ -j y
 #$ -wd homeDir/logs
+## Send an emeail after the job has beginning, crashed and/or finished
+#$ -m bae
+#$ -M so1.618e@gmail.com
 
 ## Modules
-
+. /etc/profile.d/modules.sh
 module load fsl/5.0.11
 module load singularity/2.2
 
@@ -25,7 +29,6 @@ function sAfni() {
     singularity exec -B /mnt:/mnt \
     $imageAFNI $@
 }
-
 
 ## Variables
 homeDir=/mnt/MD1200B/egarza/sfernandezl

@@ -1,6 +1,17 @@
-#!/bin/bash
+#! /bin/bash
+## SGE batch file -avgStimZCorrsCPACconn.SGE
+#$ -S /bin/bash
+## avgStimZCorrsCPACconn is the jobname and can be changed
+#$ -N avgStimZCorrsCPACconn
+## Joing stdout and stderr
+#$ -j y
+#$ -wd homeDir/logs
+## Send an emeail after the job has beginning, crashed and/or finished
+#$ -m bae
+#$ -M so1.618e@gmail.com
 
-#load module 
+## Modules
+. /etc/profile.d/modules.sh
 module load fsl/5.0.11
 
 homeDir=/mnt/MD1200B/egarza/sfernandezl
