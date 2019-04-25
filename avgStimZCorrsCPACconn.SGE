@@ -1,23 +1,17 @@
 #! /bin/bash
 ## SGE batch file -avgStimZCorrsCPACconn.SGE
 #$ -S /bin/bash
-## avgStimZCorrsCPACconn is the jobname and can be changed
 #$ -N avgStimZCorrsCPACconn
-## Joing stdout and stderr
-#$ -j y
 #$ -wd homeDir/logs
-## Send an emeail after the job has beginning, crashed and/or finished
-#$ -m bae
-#$ -M so1.618e@gmail.com
 
 ## Modules
 . /etc/profile.d/modules.sh
 module load fsl/5.0.11
 
 homeDir=/mnt/MD1200B/egarza/sfernandezl
-inDir=${homedir}/AddimexConn/derivatives/CPAC
-outDir=${homedir}/AddimexConn/derivatives/stimZanalysis
-seedsDir=${homedir}/foxFiles/cones
+inDir=${homeDir}/AddimexConn/derivatives/CPAC
+outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis
+seedsDir=${homeDir}/foxFiles/cones
 
 for cone in $(ls $seedsDir); do
     stimZid=$(basename $cone _CONE_msk2_normed.nii.gz)
@@ -29,9 +23,9 @@ for outCPAC in $(ls $inDir); do
     mkdir -p $OUT
     for r_z in r z; do
         for stimZid in ${stimZids[@]}; do
-            fslmerge -t ${OUT}/seed_${stimZid}_${r_z}} \
-                ${outDir}/correlationMaps/${r_z}/sub*${stimZid}*;
-            fslmaths ${OUT}/seed_${stimZid}_${r_z}} \
+            fslmerge -t ${OUT}/seed_${stimZid}_${r_z} \
+                ${outDir}/${outCPAC}/correlationMaps/${r_z}/sub*${stimZid}*;
+            fslmaths ${OUT}/seed_${stimZid}_${r_z} \
                 -Tmean ${OUT}/avg_seed_${stimZid}_${r_z} \
                 -odt input
         done
