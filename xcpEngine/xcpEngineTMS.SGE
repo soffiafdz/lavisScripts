@@ -12,7 +12,7 @@
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
-#$ -wd /mnt/MD1200B/egarza/sfernandezl
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
 
 ## Load singularity module
 module load singularity/2.2
