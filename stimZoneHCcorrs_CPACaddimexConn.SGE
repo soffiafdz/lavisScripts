@@ -12,7 +12,7 @@
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+#$ -wd homeDir/logs
 
 ## Modules
 
@@ -20,7 +20,7 @@ module load fsl/5.0.11
 module load singularity/2.2
 
 # Singularity image of AFNI
-imageAFNI=/mnt/MD1200B/egarza/sfernandezl/singImages/afni_afni-2019-04-08.img
+imageAFNI=homeDir/singImages/afni_afni-2019-04-08.img
 function sAfni() {
     singularity exec -B /mnt:/mnt \
     $imageAFNI $@
@@ -28,10 +28,11 @@ function sAfni() {
 
 
 ## Variables
-inDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/CPAC
-outDir=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/stimZanalysis
-seedsDir=[FoxFilesCones]
-subsList=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/sourcedata/validControls.txt
+homeDir=/mnt/MD1200B/egarza/sfernandezl
+inDir=${homeDir}/AddimexConn/derivatives/CPAC
+outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis
+seedsDir=${homedir}/foxFiles/cones
+subsList=${homedir}/AddimexConn/sourcedata/validControls.txt
 inDirs=()
 
 for outCPAC in $(ls $inDir); do
@@ -48,12 +49,11 @@ sleep $(( $SGE_TASK_ID % 10 ))
 
 ## Body
 for i in ${inDirs[@]}; do
-    for cone in $(ls [cones indeces]); do
-        stimZ=$(basename $cone)
-        stimZid=[] #Should this be needed?
-        inFile=$(ls ${inDir}/${i}/${sinIdx}*)
+    for cone in $(ls $seedsDir); do
+        stimZid=$(basename $cone _CONE_msk2_normed.nii.gz)
+        inFile=$(ls ${inDir}/${i}/${subIdx}*)
         subID=$(basename $inFile .nii.gz)
-        outFile=${subID}_${stimZid}
+        outFile=${subID}_seed${stimZid}
         # Extracting Time series
         fslmeants -i $inFile \
         -o ${outDir}/${i}/timeSeries/${outFile}.1D \
