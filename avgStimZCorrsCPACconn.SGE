@@ -2,11 +2,14 @@
 ## SGE batch file -avgStimZCorrsCPACconn.SGE
 #$ -S /bin/bash
 #$ -N avgStimZCorrsCPACconn
-#$ -wd homeDir/logs
+#$ -wd /home/sfernandezl/logs
 
 ## Modules
 . /etc/profile.d/modules.sh
 module load fsl/5.0.11
+
+## Needed setup 
+. /cm/shared/apps/fsl/5.0.11/etc/fslconf/fsl.sh
 
 homeDir=/mnt/MD1200B/egarza/sfernandezl
 inDir=${homeDir}/AddimexConn/derivatives/CPAC

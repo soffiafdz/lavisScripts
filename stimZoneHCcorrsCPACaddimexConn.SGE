@@ -65,6 +65,6 @@ for outCPAC in $(ls $inDir); do
         -bucket ${outDir}/${outCPAC}/correlationMaps/r/${outFile}_corr.nii.gz
         sAfni 3dcalc -a ${outDir}/${outCPAC}/correlationMaps/r/${outFile}_corr.nii.gz \
         -expr 'log((1+a)/(1-a))/2' \
-        -prefix ${outDir}/correlationMaps/z/${outFile}_corrZ.nii.gz
+        -prefix ${outDir}/${outCPAC}/correlationMaps/z/${outFile}_corrZ.nii.gz
     done
 done
