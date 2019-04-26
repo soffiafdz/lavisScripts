@@ -3,9 +3,9 @@
 #$ -S /bin/bash
 ## xcpEngineTMS is the jobname and can be changed
 #$ -N xcpEngineTMS
-## execute the job using the mpi_smp parallel enviroment and 8 cores per job
+## execute the job using the mpi_smp parallel enviroment and 122 cores per job
 ## create an array of 2 jobs the number of subjects and sessions
-#$ -t 1-
+#$ -t 1-84
 #$ -V
 #$ -l mem_free=18G
 #$ -pe openmp 12
@@ -14,16 +14,17 @@
 ## and stderr) will be stored
 #$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
 
-## Load singularity module
+## Modules
+. /etc/profile.d/modules.sh
 module load singularity/2.2
 
 ## Variables
 HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
 OUT_DIR=derivatives/xcpOutput
 TMP_DIR=${HOME_DIR}/tmp
-SING_DIR=/home/user/TMS
-SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19-03107515b2d6.img
-FULL_COHORT=${HOME_DIR}/TMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
+SING_DIR=/home/user/AddimexTMS
+SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19.img
+FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
 PIPELINE=sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 
 ## TMP cohort file with 1 line
@@ -37,7 +38,7 @@ echo $LINE >> $TMP_COHORT
 # random sleep so that jobs dont start at _exactly_ the same time
 sleep $(( $SGE_TASK_ID % 10 ))
 
-singularity run -B ${HOME_DIR}/TMS:${SING_DIR} \
+singularity run -B ${HOME_DIR}/AddimexTMS:${SING_DIR} \
     $SIMG \
     -c ${SING_DIR}/${TMP_COHORT}
     -d ${SING_DIR}/${PIPELINE}
