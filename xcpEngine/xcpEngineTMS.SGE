@@ -22,7 +22,7 @@ module load singularity/2.2
 HOME_DIR=/mnt/MD1200B/egarza/sfernandezl
 OUT_DIR=derivatives/xcpOutput
 TMP_DIR=${HOME_DIR}/tmp
-SING_DIR=/home/user/AddimexTMS
+SING_DIR=/home/user
 SIMG=${HOME_DIR}/singImages/pennbbl_xcpengine-2019-04-19.img
 FULL_COHORT=${HOME_DIR}/AddimexTMS/sourcedata/xcpEngine/cohorts/tmsFuncCohort.csv
 PIPELINE=sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
@@ -31,9 +31,9 @@ PIPELINE=sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 HEADER=$(head -n 1 $FULL_COHORT)
 LINE_N=$( expr $SGE_TASK_ID + 1 )
 LINE=$(awk -v LINE_N=$(($SGE_TASK_ID + 1)) 'NR==LINE_N' $FULL_COHORT)
-TMP_COHORT=sourcedata/xcpEngine/cohorts/tmpCohort_${SGE_TASK_ID}.csv
-echo $HEADER > $TMP_COHORT
-echo $LINE >> $TMP_COHORT
+TMP_COHORT=sourcedata/xcpEngine/cohorts/tmpCohort-${SGE_TASK_ID}.csv
+echo $HEADER > ${FULL_COHORT/tmsFuncCohort/tmpCohort-${SGE_TASK_ID}}
+echo $LINE >> ${FULL_COHORT/tmsFuncCohort/tmpCohort-${SGE_TASK_ID}}
 
 # random sleep so that jobs dont start at _exactly_ the same time
 sleep $(( $SGE_TASK_ID % 10 ))
