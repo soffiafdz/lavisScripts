@@ -27,7 +27,7 @@ module load fsl/5.0.11
 ## Variables
 homeDir=/mnt/MD1200B/egarza/sfernandezl
 inDir=${homeDir}/AddimexConn/derivatives/CPAC
-outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis
+outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis/controls
 seedsDir=${homeDir}/foxFiles/cones
 subsList=${homeDir}/AddimexConn/sourcedata/validControls.txt
 inDirs=()
