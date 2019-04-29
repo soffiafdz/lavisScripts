@@ -1,0 +1,70 @@
+#! /bin/bash
+## SGE batch file - stimZoneHCcorrsCPACaddimexConn.SGE
+#$ -S /bin/bash
+## stimZoneHCcorrsCPACaddimexConn is the jobname and can be changed
+#$ -N stimZoneHCcorrsCPACaddimexConn
+## Execute the job using the mpi_smp parallel enviroment and 6 cores per job
+## Create an array of 46 jobs the number of subjects and sessions
+#$ -t 47-62
+#$ -V
+#$ -l mem_free=12G
+#$ -pe openmp 6
+## Change the following working directory to a persistent directory that is
+## available on all nodes, this is were messages printed by the app (stdout
+## and stderr) will be stored
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
+
+## Modules
+. /etc/profile.d/modules.sh
+
+module load singularity/2.2
+module load fsl/5.0.11
+
+## Needed setup 
+. /cm/shared/apps/fsl/5.0.11/etc/fslconf/fsl.sh
+
+
+## Variables
+homeDir=/mnt/MD1200B/egarza/sfernandezl
+inDir=${homeDir}/AddimexConn/derivatives/CPAC
+outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis/users
+seedsDir=${homeDir}/foxFiles/cones
+subsList=${homeDir}/AddimexConn/sourcedata/validUsers.txt
+inDirs=()
+
+# Singularity image of AFNI
+imageAFNI=${homeDir}/singImages/afni_afni-2019-04-08.img
+function sAfni() {
+    singularity exec -B /mnt:/mnt \
+    $imageAFNI $@
+}
+
+subIdx=$(awk -v idx=$SGE_TASK_ID 'NR==idx' $subsList)
+
+# Random sleep so that jobs dont start at _exactly_ the same time
+sleep $(( $SGE_TASK_ID % 10 ))
+
+## Body
+for outCPAC in $(ls $inDir); do
+    mkdir -p ${outDir}/${outCPAC}/timeSeries \
+    ${outDir}/${outCPAC}/correlationMaps/{r,z}
+    for cone in $(ls $seedsDir); do
+        stimZid=$(basename $cone _CONE_msk2_normed.nii.gz)
+        inFile=$(ls ${inDir}/${outCPAC}/${subIdx}*)
+        subID=$(basename $inFile .nii.gz)
+        outFile=${subID}_seed-${stimZid}
+        # Extracting Time series
+        fslmeants -i $inFile \
+        -o ${outDir}/${outCPAC}/timeSeries/${outFile}.1D \
+        -m ${seedsDir}/$cone
+        # Correlation maps 
+        sAfni 3dfim+ -polort 3 \
+        -input $inFile \
+        -ideal_file ${outDir}/${outCPAC}/timeSeries/${outFile}.1D \
+        -out Correlation \
+        -bucket ${outDir}/${outCPAC}/correlationMaps/r/${outFile}_corr.nii.gz
+        sAfni 3dcalc -a ${outDir}/${outCPAC}/correlationMaps/r/${outFile}_corr.nii.gz \
+        -expr 'log((1+a)/(1-a))/2' \
+        -prefix ${outDir}/${outCPAC}/correlationMaps/z/${outFile}_corrZ.nii.gz
+    done
+done
