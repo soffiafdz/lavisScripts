@@ -33,7 +33,7 @@
 ###################################################################
 
 analysis=fc_$(whoami)
-design=${SING_DIR}/sourcedata/xcpEngine/designs/fc-36p_spkreg.dsn
+design=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/sourcedata/xcpEngine/designs/fc-36p_scrub.dsn
 sequence=fc-rest
 standard=MNI%2x2x2
 
@@ -71,7 +71,7 @@ confound2_custom[2]=
 confound2_censor[2]=1
 confound2_censor_contig[2]=1
 confound2_framewise[2]=fds:0.25,rmss:0.125,dv:2
-confound2_rerun[2]=0
+confound2_rerun[2]=1
 confound2_cleanup[2]=1
 
 ###################################################################
@@ -91,7 +91,7 @@ regress_smo[3]=6
 regress_sptf[3]=uniform
 regress_usan[3]=default
 regress_usan_space[3]=
-regress_rerun[3]=0
+regress_rerun[3]=1
 regress_cleanup[3]=1
 regress_process[3]=DMT-TMP-REG
 
@@ -105,11 +105,7 @@ fcon_thr[4]=0
 fcon_window[4]=10
 fcon_pad[4]=FALSE
 fcon_rerun[4]=1
-<<<<<<< HEAD
 fcon_cleanup[4]=1
-=======
-fcon_cleanup[4]=0
->>>>>>> c304214bbacc71e54c29445510692f60b3831c73
 
 ###################################################################
 # 5 REHO
@@ -140,14 +136,14 @@ alff_cleanup[6]=1
 roiquant_atlas[7]=all
 roiquant_globals[7]=1
 roiquant_vol[7]=0
-roiquant_rerun[7]=0
+roiquant_rerun[7]=1
 roiquant_cleanup[7]=1
 
 ###################################################################
 # 8 NORM
 ###################################################################
 norm_primary[8]=1
-norm_rerun[8]=0
+norm_rerun[8]=1
 norm_cleanup[8]=1
 
 ##################################################################
