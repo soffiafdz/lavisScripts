@@ -71,7 +71,7 @@ confound2_custom[2]=
 confound2_censor[2]=1
 confound2_censor_contig[2]=1
 confound2_framewise[2]=fds:0.25,rmss:0.125,dv:2
-confound2_rerun[2]=1
+confound2_rerun[2]=0
 confound2_cleanup[2]=1
 
 ###################################################################
@@ -99,7 +99,7 @@ regress_process[3]=DMT-TMP-REG
 # 4 FCON
 ###################################################################
 
-fcon_atlas[4]=power264
+fcon_atlas[4]=all
 fcon_metric[4]=corrcoef
 fcon_thr[4]=0
 fcon_window[4]=10
@@ -136,7 +136,7 @@ alff_cleanup[6]=1
 roiquant_atlas[7]=all
 roiquant_globals[7]=1
 roiquant_vol[7]=0
-roiquant_rerun[7]=1
+roiquant_rerun[7]=0
 roiquant_cleanup[7]=1
 
 ###################################################################
