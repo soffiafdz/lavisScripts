@@ -105,7 +105,11 @@ fcon_thr[4]=0
 fcon_window[4]=10
 fcon_pad[4]=FALSE
 fcon_rerun[4]=1
+<<<<<<< HEAD
+fcon_cleanup[4]=1
+=======
 fcon_cleanup[4]=0
+>>>>>>> c304214bbacc71e54c29445510692f60b3831c73
 
 ###################################################################
 # 5 REHO
@@ -115,7 +119,7 @@ reho_nhood[5]=vertices
 reho_roikw[5]=0 # does nothing at the moment
 reho_sptf[5]=uniform
 reho_smo[5]=6
-reho_rerun[5]=0
+reho_rerun[5]=1
 reho_cleanup[5]=1
 
 ###################################################################
@@ -126,7 +130,7 @@ alff_hipass[6]=0.01
 alff_lopass[6]=0.08
 alff_sptf[6]=uniform
 alff_smo[6]=6
-alff_rerun[6]=0
+alff_rerun[6]=1
 alff_cleanup[6]=1
 
 ###################################################################
@@ -151,5 +155,5 @@ norm_cleanup[8]=1
 ###################################################################
 qcfc_atlas[9]=power264
 qcfc_sig[9]=fdr
-qcfc_rerun[9]=0
+qcfc_rerun[9]=1
 qcfc_cleanup[9]=1
