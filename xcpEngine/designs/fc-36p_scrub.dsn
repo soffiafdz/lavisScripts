@@ -105,7 +105,11 @@ fcon_thr[4]=0
 fcon_window[4]=10
 fcon_pad[4]=FALSE
 fcon_rerun[4]=1
+<<<<<<< HEAD
 fcon_cleanup[4]=1
+=======
+fcon_cleanup[4]=0
+>>>>>>> c304214bbacc71e54c29445510692f60b3831c73
 
 ###################################################################
 # 5 REHO
@@ -133,7 +137,7 @@ alff_cleanup[6]=1
 # 7 ROIQUANT
 ###################################################################
 
-roiquant_atlas[7]=power264
+roiquant_atlas[7]=all
 roiquant_globals[7]=1
 roiquant_vol[7]=0
 roiquant_rerun[7]=1
