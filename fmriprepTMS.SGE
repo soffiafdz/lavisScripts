@@ -5,22 +5,22 @@
 #$ -N fmriprepTMS
 ## execute the job using the mpi_smp parallel enviroment and 8 cores per job
 ## create an array of 2 jobs the number of subjects and sessions
-#$ -t 1-31
+#$ -t 25
 #$ -V
 #$ -l mem_free=18G
 #$ -pe openmp 12
 ## change the following working directory to a persistent directory that is
 ## available on all nodes, this is were messages printed by the app (stdout
 ## and stderr) will be stored
-#$ -wd /mnt/MD1200B/egarza/sfernandezl/TMS/derivatives/fmriprep
+#$ -wd /mnt/MD1200B/egarza/sfernandezl/logs
 
 module load singularity/2.2
 
 ## sudo chmod 777 /mnt
-mkdir -p /mnt/MD1200B/egarza/sfernandezl/TMS/derivatives/fmriprep/output
+mkdir -p /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/fmriprep/output
 export FS_LICENSE=/mnt/MD1200B/egarza/sfernandezl/freesurferLicense/license.txt
-container=/mnt/MD1200B/egarza/sfernandezl/singImages/poldracklab_fmriprep-2019-03-18-63091b7e6499.img
-subList=/mnt/MD1200B/egarza/sfernandezl/TMS/participants.tsv
+container=/mnt/MD1200B/egarza/sfernandezl/singImages/poldracklab_fmriprep-2019-03-18.img
+subList=/mnt/MD1200B/egarza/sfernandezl/AddimexTMS/participantsTMS.tsv
 sge_ndx=$(awk -v F='\t' -v OFS='\t' -v subIndx=$(($SGE_TASK_ID + 1)) 'NR==subIndx {print $1}' $subList)
 
 # random sleep so that jobs dont start at _exactly_ the same time
@@ -37,7 +37,7 @@ singularity run -B /mnt:/mnt \
     --mem-mb 18 \
     --resource-monitor \
     --write-graph \
-    --work-dir /mnt/MD1200B/egarza/sfernandezl/TMS/derivatives/fmriprep \
+    --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
     --output-space template \
     --template-resampling-grid 2mm \
     --use-syn-sdc;
