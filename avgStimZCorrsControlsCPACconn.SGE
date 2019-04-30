@@ -1,0 +1,36 @@
+#! /bin/bash
+## SGE batch file -avgStimZCorrsCPACconn.SGE
+#$ -S /bin/bash
+#$ -N avgStimZCorrsCPACconn
+#$ -wd /home/sfernandezl/logs
+
+## Modules
+. /etc/profile.d/modules.sh
+module load fsl/5.0.11
+
+## Needed setup 
+. /cm/shared/apps/fsl/5.0.11/etc/fslconf/fsl.sh
+
+homeDir=/mnt/MD1200B/egarza/sfernandezl
+inDir=${homeDir}/AddimexConn/derivatives/CPAC
+outDir=${homeDir}/AddimexConn/derivatives/stimZanalysis/controls
+seedsDir=${homeDir}/foxFiles/cones
+
+for cone in $(ls $seedsDir); do
+    stimZid=$(basename $cone _CONE_msk2_normed.nii.gz)
+    stimZids+=( $stimZid );
+done
+
+for outCPAC in $(ls $inDir); do
+    OUT=${outDir}/controls/${outCPAC}/meanSeries
+    mkdir -p $OUT
+    for r_z in r z; do
+        for stimZid in ${stimZids[@]}; do
+            fslmerge -t ${OUT}/seed_${stimZid}_${r_z} \
+                ${outDir}/controls/${outCPAC}/correlationMaps/${r_z}/sub*${stimZid}*;
+            fslmaths ${OUT}/seed_${stimZid}_${r_z} \
+                -Tmean ${OUT}/avg_seed_${stimZid}_${r_z} \
+                -odt input
+        done
+    done
+done
