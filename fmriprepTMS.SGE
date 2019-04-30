@@ -28,8 +28,8 @@ sleep $(( $SGE_TASK_ID % 10 ))
 
 singularity run -B /mnt:/mnt \
     $container \
-    /mnt/MD1200B/egarza/sfernandezl/TMS \
-    /mnt/MD1200B/egarza/sfernandezl/TMS/derivatives/fmriprep/output \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexTMS/derivatives/fmriprep/output \
     participant \
     --participant-label ${sge_ndx} \
     --longitudinal \
