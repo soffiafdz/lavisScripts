@@ -22,12 +22,12 @@ for cone in $(ls $seedsDir); do
 done
 
 for outCPAC in $(ls $inDir); do
-    OUT=${outDir}/controls/${outCPAC}/meanSeries
+    OUT=${outDir}/${outCPAC}/meanSeries
     mkdir -p $OUT
     for r_z in r z; do
         for stimZid in ${stimZids[@]}; do
             fslmerge -t ${OUT}/seed_${stimZid}_${r_z} \
-                ${outDir}/controls/${outCPAC}/correlationMaps/${r_z}/sub*${stimZid}*;
+                ${outDir}/${outCPAC}/correlationMaps/${r_z}/sub*${stimZid}*;
             fslmaths ${OUT}/seed_${stimZid}_${r_z} \
                 -Tmean ${OUT}/avg_seed_${stimZid}_${r_z} \
                 -odt input

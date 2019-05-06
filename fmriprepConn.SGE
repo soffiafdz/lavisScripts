@@ -18,10 +18,10 @@
 module load singularity/2.2
 
 ## sudo chmod 777 /mnt
-mkdir -p /mnt/MD1200B/egarza/sfernandezl/addimexConn/derivatives/fmriprep/output
+mkdir -p /mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/fmriprep/output
 export FS_LICENSE=/mnt/MD1200B/egarza/sfernandezl/freesurferLicense/license.txt
 container=/mnt/MD1200B/egarza/sfernandezl/singImages/poldracklab_fmriprep-2019-03-18.img
-subList=/mnt/MD1200B/egarza/sfernandezl/addimexConn/sourcedata/validSubs.txt
+subList=/mnt/MD1200B/egarza/sfernandezl/AddimexConn/sourcedata/validSubs.txt
 sge_ndx=$(awk "NR==$SGE_TASK_ID" $subList)
 
 # random sleep so that jobs dont start at _exactly_ the same time
@@ -29,8 +29,8 @@ sleep $(( $SGE_TASK_ID % 10 ))
 
 singularity run -B /mnt:/mnt \
     $container \
-    /mnt/MD1200B/egarza/sfernandezl/addimexConn \
-    /mnt/MD1200B/egarza/sfernandezl/addimexConn/derivatives/fmriprep/output \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexConn \
+    /mnt/MD1200B/egarza/sfernandezl/AddimexConn/derivatives/fmriprep/output \
     participant \
     --participant-label ${sge_ndx} \
     --nthreads 12 --omp-nthreads 12 \
