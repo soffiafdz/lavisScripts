@@ -38,6 +38,7 @@ singularity run -B /mnt:/mnt \
     --resource-monitor \
     --write-graph \
     --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
-    --output-space T1w \
+    --output-space T1w template \
+    --template-resampling-grid 2mm \
     --fs-no-reconall \
     --use-syn-sdc;

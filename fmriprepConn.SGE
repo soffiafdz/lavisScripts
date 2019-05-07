@@ -5,7 +5,7 @@
 #$ -N fmriprepAddimexConn
 ## execute the job using the mpi_smp parallel enviroment and 12 cores per job
 ## create an array of 108 jobs the number of subjects and sessions
-#$ -t 1-108
+#$ -t 16-108
 #$ -V
 #$ -l mem_free=16G
 #$ -pe openmp 12
@@ -38,5 +38,7 @@ singularity run -B /mnt:/mnt \
     --resource-monitor \
     --write-graph \
     --work-dir /mnt/MD1200B/egarza/sfernandezl/tmp \
-    --output-space T1w \
+    --output-space T1w template \
+    --template-resampling-grid 2mm \
+    --fs-no-reconall \
     --use-syn-sdc;
